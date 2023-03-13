@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: teste01angular-ingress
+  labels:
+    app: teste01angular
+    backstage.io/kubernetes-id: teste01angular
+spec:
+  rules:
+    - host: api-teste01angular-teste2angular-dev.empcbr.thoughtworks-labs.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: teste01angular
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - api-teste01angular-teste2angular-dev.empcbr.thoughtworks-labs.net
+      secretName: letencryptkey
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teste01angular
+  labels:
+    app: teste01angular
+    backstage.io/kubernetes-id: teste01angular
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: teste01angular
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teste01angular
+  labels:
+    app: teste01angular
+    backstage.io/kubernetes-id: teste01angular
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: teste01angular
+  template:
+    metadata:
+      labels:
+        app: teste01angular
+    spec:
+      containers:
+        - name: teste01angular
+          image: 626109959667.dkr.ecr.us-east-1.amazonaws.com/teste01angular:{image-tag}
+          ports:
+            - containerPort: 8080

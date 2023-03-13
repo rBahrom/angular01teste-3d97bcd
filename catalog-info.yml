@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "teste01angular"
+  description: "teste01angular"
+  links:
+    - url: https://api-teste01angular-teste2angular-dev.empcbr.thoughtworks-labs.net/swagger-ui.html
+      title: teste01angular
+      icon: dashboard
+  annotations:
+    circleci.com/project-slug: github/platform-dx/angular01teste-3d97bcd
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: platform-dx/angular01teste-3d97bcd
+    sonarqube.org/project-key: "teste01angular"
+    backstage.io/kubernetes-label-selector: "app=teste01angular"
+    backstage.io/adr-location: docs/adrs/
+spec:
+  type: service
+  lifecycle: experimental
+  owner: "Ricardo"
+  providesApis:
+    - "teste01angular"
